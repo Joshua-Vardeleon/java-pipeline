@@ -20,16 +20,12 @@ pipeline {
 			}
 		}
 		stage ('Deploying Application Using Ansible') {
-			steps {
-				script {
-					withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-					
-					sh 'nohup java -jar ./target/springboot-bootcamp-0.0.1-SNAPSHOT.jar &'
-				
-					}
-				}
-			}
+		
+		steps {
+			sh 'export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook --private-key=/home/ubuntu/.ssh/vm-instance-key.pem -i host_inventory deploy-artifact.yml'
 
+			}
+		
 		}
 
 	}
